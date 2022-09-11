@@ -35,6 +35,10 @@ class BusProvider with ChangeNotifier {
     }
   }
 
+  changeUI(){
+    notifyListeners();
+  }
+
   Future editBusInventory({
     required String uid,
     required String licence,
@@ -67,6 +71,7 @@ class BusProvider with ChangeNotifier {
   }
 
 }
+
 
 Future onError(BuildContext context, String massage) {
   return showDialog(

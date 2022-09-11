@@ -16,6 +16,20 @@ class GOCSV extends StatefulWidget {
 class _GOCSVState extends State<GOCSV> {
   List<List<dynamic>> _data = [];
   String? filePath;
+  bool isLoading = false;
+
+  void pushData(String startingTime , String endingTime, String batch , String day , String section ) async{
+    await FirebaseFirestore.instance.collection("stats").doc(day).collection(batch).doc(section+"*").set(
+      {
+        "starting_time": startingTime,
+        "ending_time": endingTime ,
+        "batch": batch,
+        "section": section,
+        "day": day,
+
+      },
+    );
+  }
 
   // This function is triggered when the  button is pressed
 
@@ -23,123 +37,125 @@ class _GOCSVState extends State<GOCSV> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark,
-            // For Android (dark icons)
-            statusBarBrightness: Brightness.light, // For iOS (dark icons)
-          ),
-          title: const Text("Bulk Upload",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              )),
-        ),
-        body: Column(
-          children: [
-            ElevatedButton(
-              child: const Text("Upload FIle"),
-              onPressed: () {
-                _pickFile();
-              },
-            ),
+          title: Text('Update Automation DB'),
+          backgroundColor: Colors.black,
+          actions: [
 
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: _data.length,
-            //     scrollDirection: Axis.vertical,
-            //     shrinkWrap: true,
-            //     itemBuilder: (_, index) {
-            //       return Card(
-            //         margin: const EdgeInsets.all(3),
-            //         color: index == 0 ? Colors.amber : Colors.white,
-            //         child: ListTile(
-            //           leading: Text(_data[index][0].toString(),textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight:index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //           title: Text(_data[index][1],textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //           trailing: Text(_data[index][2].toString(),textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //
-            //         ),
-            //
-            //       );
-            //
-            //     },
-            //
-            //   ),
-            // ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () async {
-                  // set loading to true here
-
-                  bool routineActive = false;
-
-                  String day = "";
-                  String batch = "";
-                  String section = "";
-                  String startingTime = "";
-                  String endingTime = "";
-                  List<dynamic> timeTable = [];
-
-                  for (var element in _data) // for skip first value bcs its contain name
-                  {
-
-
-                    if (element[0] == 'SUNDAY') {
-                      routineActive = true;
-                      day = "SUNDAY";
-                      timeTable = element;
-                    } else if (element[0] == "" && routineActive) {
-                      batch = element[2].toString();
-                      section = element[1].toString();
-
-                      for (int i = 3; i < 10; i++) {
-                        if(element[i].toString() != ""){
-                          startingTime = timeTable[i].toString();
-                          break;
-                        }
-                      }
-
-                      for (int i = 11; i > 0; i--) {
-                        if(element[i].toString() != ""){
-                          endingTime = timeTable[i].toString();
-                          break;
-                        }
-                      }
-
-                      if(day == "SUNDAY"){
-                        FirebaseFirestore.instance.collection("stats").doc(day).collection("${batch}${section}").doc().set(
-                          {
-                            "starting_time": startingTime,
-                            "ending_time": endingTime ,
-                            "batch": batch,
-                            "section": section,
-                            "day": day,
-
-                          },
-                        );
-                      }
-
-
-                      print("starting_time : $startingTime");
-                      print("ending time : $endingTime");
-                      print("batch : $batch ");
-                      print("section : $section");
-                      print("day : $day");
-
-                      batch = "";
-                      section = "";
-                      startingTime = "";
-                      endingTime = "";
-                    }
-                  }
-                },
-                child: const Text("Iterate Data"),
-              ),
-            ),
           ],
+        ),
+        body: Center(
+          child: isLoading ? CircularProgressIndicator() : Column(
+            children: [
+
+              if(filePath != null)
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                      width: double.infinity,
+                      child: Text(filePath.toString())),
+                ),
+
+              ElevatedButton(
+                child: const Text("Upload FIle"),
+                onPressed: () {
+                  _pickFile();
+                },
+              ),
+
+              if(filePath != null)
+              Container(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // set loading to true here
+
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    bool routineActive = false;
+
+                    String day = "";
+                    String batch = "";
+                    String section = "";
+                    String startingTime = "";
+                    String endingTime = "";
+                    List<dynamic> timeTable = [];
+
+                    for (var element in _data) // for skip first value bcs its contain name
+                    {
+
+                      if (element[0] == 'SUNDAY' || element[0] == 'Monday' || element[0] == 'TUESDAY' || element[0] == 'WEDNESDAY' || element[0] == 'THURSDAY' || element[0] == 'FRIDAY' || element[0] == 'SATURDAY') {
+                        routineActive = true;
+
+                        if(element[0] == 'SUNDAY'){
+                          day = "SUNDAY";
+                        }else if(element[0] == 'Monday'){
+                          day = "Monday";
+                        }else if(element[0] == 'TUESDAY'){
+                          day = "TUESDAY";
+                        }else if(element[0] == 'WEDNESDAY'){
+                          day = "WEDNESDAY";
+                        }else if(element[0] == 'THURSDAY'){
+                          day = "THURSDAY";
+                        }else if(element[0] == 'FRIDAY'){
+                          day = "FRIDAY";
+                        }else if(element[0] == 'SATURDAY'){
+                          day = "SATURDAY";
+                        }
+
+                        timeTable = element;
+
+                      } else if (element[0] == "" && routineActive) {
+                        batch = element[2].toString();
+                        section = element[1].toString();
+
+                        for (int i = 3; i < 10; i++) {
+                          if(element[i].toString() != ""){
+                            startingTime = timeTable[i].toString();
+                            break;
+                          }
+                        }
+
+                        for (int i = 11; i > 0; i--) {
+                          if(element[i].toString() != ""){
+                            endingTime = timeTable[i].toString();
+                            break;
+                          }
+                        }
+
+
+                        if(day.isNotEmpty && startingTime.isNotEmpty && endingTime.isNotEmpty){
+                          print("Non Empty Day : $day");
+                          pushData( startingTime ,  endingTime,  batch ,  day ,  section);
+
+                        }
+
+                        print("starting_time : $startingTime");
+                        print("ending time : $endingTime");
+                        print("batch : $batch ");
+                        print("section : $section");
+                        print("day : $day");
+
+                        batch = "";
+                        section = "";
+                        startingTime = "";
+                        endingTime = "";
+                      }
+                    }
+
+                    setState(() {
+                      isLoading = false;
+                    });
+
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: const Text("Update DB"),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 

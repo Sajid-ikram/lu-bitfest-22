@@ -1,4 +1,7 @@
+import 'package:bitfest/view/bus/addBusInventory.dart';
+import 'package:bitfest/view/profile/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -13,25 +16,33 @@ class UpdateProfileInfo extends StatefulWidget {
 
 class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController batchController = TextEditingController();
+  TextEditingController sectionController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
+  TextEditingController codeNameController = TextEditingController();
+  TextEditingController designationController = TextEditingController();
+  String choose = "";
 
-  update(String profileUid) async {
-    var pro = Provider.of<ProfileProvider>(context, listen: false);
-    await FirebaseFirestore.instance.collection('users').doc(profileUid).update({'name': nameController.text});
-    pro.getUserInfo();
-    nameController.clear();
-    if(!mounted) return;
-    //showDialogProfileUpdate(context, pro.profileUid);
+  update(String profileUid, String choose) async {
+    //await FirebaseFirestore.instance.collection('users').doc(profileUid).update();
   }
 
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<ProfileProvider>(context);
+
+    nameController.text = pro.profileName;
+    batchController.text = pro.batch;
+    sectionController.text = pro.section;
+
+    departmentController.text = pro.department;
+    codeNameController.text = pro.code_name;
+    designationController.text = pro.designation;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -58,48 +69,132 @@ class _UpdateProfileInfoState extends State<UpdateProfileInfo> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(8.0.w),
-            child: TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 15.w),
-                fillColor: Colors.blueGrey,
-                focusedBorder: const OutlineInputBorder(
-                  //borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: Colors.blueGrey,
-                  ),
-                ),
-                label: Padding(
-                  padding: EdgeInsets.all(8.0.w),
-                  child: const Text('Update Name'),
-                ),
-                hintText: pro.profileName,
-                border: const OutlineInputBorder(
-                  gapPadding: 0,
-                ),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              try {
-                update(pro.currentUserUid);
-                //showDialogProfileUpdate(context, pro.profileUid);
-              }
-              catch(e){
-                //...ignored
-              }
-            },
-            child: const Text(
-              "save",
-            ),
-          ),
-        ],
-      ),
+      body: pro.role == "Student"
+          ? studentUpdate(
+              context, nameController, batchController, sectionController)
+          : pro.role == "Teacher"
+              ? teacherUpdate(context, nameController, departmentController,
+                  codeNameController, designationController)
+              : Container(),
     );
   }
+}
+
+Widget studentUpdate(
+    BuildContext context,
+    TextEditingController nameController,
+    TextEditingController batchController,
+    TextEditingController sectionController) {
+  var pro = Provider.of<ProfileProvider>(context);
+  return Column(
+    children: [
+      TextField(
+        controller: nameController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Name',
+        ),
+      ),
+      TextField(
+        controller: batchController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Batch',
+        ),
+      ),
+      TextField(
+        controller: sectionController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Section',
+        ),
+      ),
+      ElevatedButton(
+          onPressed: () async {
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .update(
+              {
+                "name": nameController.text,
+                "batch": batchController.text,
+                "section": sectionController.text,
+              },
+            );
+            pro.getUserInfo();
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const Profile()));
+          },
+          child: const Text("Update"))
+    ],
+  );
+}
+
+Widget teacherUpdate(
+    BuildContext context,
+    TextEditingController nameController,
+    TextEditingController departmentController,
+    TextEditingController codeNameController,
+    TextEditingController designationController) {
+  var pro = Provider.of<ProfileProvider>(context);
+  return Column(
+    children: [
+      // TextField(
+      //   controller: nameController,
+      //   decoration: const InputDecoration(
+      //     border: OutlineInputBorder(),
+      //     hintText: 'Name',
+      //   ),
+      // ),
+      TextField(
+        controller: departmentController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Batch',
+        ),
+      ),
+      TextField(
+        controller: codeNameController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'CodeName',
+        ),
+      ),
+      TextField(
+        controller: designationController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Designation',
+        ),
+      ),
+      ElevatedButton(
+          onPressed: () async {
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(FirebaseAuth.instance.currentUser?.uid)
+                .update(
+              {
+                "department": departmentController.text,
+                "code_name": codeNameController.text,
+                "designation": designationController.text,
+              },
+            );
+            pro.getUserInfo();
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const Profile()));
+          },
+          child: const Text("Update"))
+      // FirebaseFirestore.instance.collection("routes").doc(.text).set(
+      //   {
+      //     "routeNumber": routeNumberController.text,
+      //     "routeLabel": labelController.text ,
+      //     "routeLatitude": latitudeController.text,
+      //     "routeLongitude": longitudeController.text,
+      //     "startTime": startTimeController.text,
+      //
+      //   },
+      // );
+      // FirebaseFirestore.instance.collection("routes").doc(routeNumberController.text).set(route);
+    ],
+  );
 }
