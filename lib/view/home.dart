@@ -1,3 +1,4 @@
+import 'package:bitfest/view/profile/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +36,20 @@ class _HomeState extends State<Home> {
               child: Text("dipon")),
           TextButton(
               onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ),
+                );
+              },
+              child: Text("profile")),
+          TextButton(
+              onPressed: () {
                 Provider.of<Authentication>(context, listen: false).signOut();
-                MaterialPageRoute(
-                  builder: (context) => LogIn(),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ),
                 );
               },
               child: Text("logout")),
