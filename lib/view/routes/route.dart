@@ -1,5 +1,5 @@
 import 'package:bitfest/view/routes/add_routes.dart';
-import 'package:bitfest/view/routes/view_stoppage.dart';
+import 'package:bitfest/view/routes/update_route.dart';
 import 'package:bitfest/view/routes/view_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,19 +76,12 @@ Widget _buildConsumer(QuerySnapshot data) {
             Spacer(),
             IconButton(
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => EditBusInventory(
-                //       capacity: data.docs[index]["capacity"],
-                //       driverPhone: data.docs[index]["driverPhone"],
-                //       driverName: data.docs[index]["driverName"],
-                //       isAc: data.docs[index]["isActive"] ,
-                //       codeName: data.docs[index]["codename"],
-                //       licence: data.docs[index]["licence"],
-                //       uid: data.docs[index].id,
-                //     ),
-                //   ),
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UpdateRoute(routeLatitude: data.docs[index]["routeLatitude"], startTime: data.docs[index]["startTime"], routeLongitude: data.docs[index]["routeLongitude"], routeNumber: data.docs[index]["routeNumber"], routeLabel: data.docs[index]["routeLabel"],
+                    ),
+                  ),
+                );
               },
               icon: Icon(Icons.edit),
             )
