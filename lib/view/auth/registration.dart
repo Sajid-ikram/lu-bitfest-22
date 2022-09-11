@@ -12,6 +12,7 @@ class Registration extends StatefulWidget {
   static String name = "";
   static String number = "";
   static String id = "";
+  static String role = "";
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -23,6 +24,7 @@ class _RegistrationState extends State<Registration> {
   TextEditingController idController = TextEditingController();
   var phone = "";
   bool isUser = true;
+  String role = "Student";
 
 
   @override
@@ -34,6 +36,7 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
+    print(role);
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(left: 25, right: 25),
@@ -96,9 +99,86 @@ class _RegistrationState extends State<Registration> {
                         ),
                         child: Center(
                             child: Text(
-                              "Staff",
+                              "Official",
                               style: TextStyle(
                                 color: isUser ? Colors.black : Colors.white,
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 70.h,
+                width: 360.w,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          role = "Student";
+                        });
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          color: role == "Student" ? Colors.black : Colors.grey,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "Student",
+                              style: TextStyle(
+                                color: role == "Student" ? Colors.white : Colors.black,
+                              ),
+                            )),
+                      ),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          role = "Teacher";
+                        });
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          color: role == "Teacher" ? Colors.black : Colors.grey,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "Teacher",
+                              style: TextStyle(
+                                color:  role == "Teacher" ? Colors.white : Colors.black,
+                              ),
+                            )),
+                      ),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          print(":");
+                          role = "Staff";
+                        });
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 100.w,
+                        decoration: BoxDecoration(
+                          color: role == "Staff" ? Colors.black : Colors.grey,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "Staff",
+                              style: TextStyle(
+                                color: role == "Staff" ? Colors.white : Colors.black,
                               ),
                             )),
                       ),
@@ -197,6 +277,7 @@ class _RegistrationState extends State<Registration> {
                           Registration.name = nameController.text;
                           Registration.number = countryController.text + phone;
                           Registration.id = idController.text;
+                          Registration.role = role;
 
                           Navigator.of(context).push(
                             MaterialPageRoute(
