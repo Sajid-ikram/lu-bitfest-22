@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/map_provider.dart';
 import '../bus/addBusInventory.dart';
+import '../bus_and_class_routine/bus_and_routine.dart';
 import 'custom_map.dart';
 
 class TrackingPage extends StatefulWidget {
@@ -80,6 +81,23 @@ class _TrackingPageState extends State<TrackingPage> {
                 }
               },
               child: Text("give location")),
+
+          TextButton(
+              onPressed: () async {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>  BusSchedule(name: 'Bus Schedule',)));
+              },
+              child: Text("Bus")),
+
+
+          TextButton(
+              onPressed: () async {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>  BusSchedule(name: 'Routine',)));
+              },
+              child: Text("routine")),
 
 
         ],
