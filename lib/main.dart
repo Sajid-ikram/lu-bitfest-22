@@ -119,7 +119,7 @@ class _MiddleOfHomeAndSignInState extends State<MiddleOfHomeAndSignIn> {
         if (snapshot.data != null) {
           return const Home();
         }
-        return  const Home();
+        return  const LogIn();
 
       },
     );
