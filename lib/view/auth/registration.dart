@@ -109,6 +109,7 @@ class _RegistrationState extends State<Registration> {
                   ],
                 ),
               ),
+              if(isUser)
               SizedBox(
                 height: 70.h,
                 width: 360.w,
