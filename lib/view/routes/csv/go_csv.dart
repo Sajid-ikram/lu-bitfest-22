@@ -16,6 +16,20 @@ class GOCSV extends StatefulWidget {
 class _GOCSVState extends State<GOCSV> {
   List<List<dynamic>> _data = [];
   String? filePath;
+  bool isLoading = false;
+
+  void pushData(String startingTime , String endingTime, String batch , String day , String section ) async{
+    await FirebaseFirestore.instance.collection("stats").doc(day).collection(batch).doc(section+"*").set(
+      {
+        "starting_time": startingTime,
+        "ending_time": endingTime ,
+        "batch": batch,
+        "section": section,
+        "day": day,
+
+      },
+    );
+  }
 
   // This function is triggered when the  button is pressed
 
@@ -35,7 +49,7 @@ class _GOCSVState extends State<GOCSV> {
                 fontSize: 20.0,
               )),
         ),
-        body: Column(
+        body: isLoading ? CircularProgressIndicator() : Column(
           children: [
             ElevatedButton(
               child: const Text("Upload FIle"),
@@ -44,35 +58,14 @@ class _GOCSVState extends State<GOCSV> {
               },
             ),
 
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: _data.length,
-            //     scrollDirection: Axis.vertical,
-            //     shrinkWrap: true,
-            //     itemBuilder: (_, index) {
-            //       return Card(
-            //         margin: const EdgeInsets.all(3),
-            //         color: index == 0 ? Colors.amber : Colors.white,
-            //         child: ListTile(
-            //           leading: Text(_data[index][0].toString(),textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight:index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //           title: Text(_data[index][1],textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold :FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //           trailing: Text(_data[index][2].toString(),textAlign: TextAlign.center,
-            //             style: TextStyle(fontSize: index == 0 ? 18 : 15, fontWeight: index == 0 ? FontWeight.bold : FontWeight.normal,color: index == 0 ? Colors.red : Colors.black),),
-            //
-            //         ),
-            //
-            //       );
-            //
-            //     },
-            //
-            //   ),
-            // ),
             Container(
               child: ElevatedButton(
                 onPressed: () async {
                   // set loading to true here
+
+                  setState(() {
+                    isLoading = true;
+                  });
 
                   bool routineActive = false;
 
@@ -86,11 +79,27 @@ class _GOCSVState extends State<GOCSV> {
                   for (var element in _data) // for skip first value bcs its contain name
                   {
 
-
-                    if (element[0] == 'SUNDAY') {
+                    if (element[0] == 'SUNDAY' || element[0] == 'Monday' || element[0] == 'TUESDAY' || element[0] == 'WEDNESDAY' || element[0] == 'THURSDAY' || element[0] == 'FRIDAY' || element[0] == 'SATURDAY') {
                       routineActive = true;
-                      day = "SUNDAY";
+
+                      if(element[0] == 'SUNDAY'){
+                        day = "SUNDAY";
+                      }else if(element[0] == 'Monday'){
+                        day = "Monday";
+                      }else if(element[0] == 'TUESDAY'){
+                        day = "TUESDAY";
+                      }else if(element[0] == 'WEDNESDAY'){
+                        day = "WEDNESDAY";
+                      }else if(element[0] == 'THURSDAY'){
+                        day = "THURSDAY";
+                      }else if(element[0] == 'FRIDAY'){
+                        day = "FRIDAY";
+                      }else if(element[0] == 'SATURDAY'){
+                        day = "SATURDAY";
+                      }
+
                       timeTable = element;
+
                     } else if (element[0] == "" && routineActive) {
                       batch = element[2].toString();
                       section = element[1].toString();
@@ -109,19 +118,12 @@ class _GOCSVState extends State<GOCSV> {
                         }
                       }
 
-                      if(day == "SUNDAY"){
-                        FirebaseFirestore.instance.collection("stats").doc(day).collection("${batch}${section}").doc().set(
-                          {
-                            "starting_time": startingTime,
-                            "ending_time": endingTime ,
-                            "batch": batch,
-                            "section": section,
-                            "day": day,
 
-                          },
-                        );
+                      if(day != ""){
+                        print("Non Empty Day : $day");
+                        pushData( startingTime ,  endingTime,  batch ,  day ,  section);
+
                       }
-
 
                       print("starting_time : $startingTime");
                       print("ending time : $endingTime");
@@ -135,6 +137,11 @@ class _GOCSVState extends State<GOCSV> {
                       endingTime = "";
                     }
                   }
+
+                  setState(() {
+                    isLoading = false;
+                  });
+
                 },
                 child: const Text("Iterate Data"),
               ),
