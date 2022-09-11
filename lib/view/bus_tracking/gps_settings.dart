@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,7 +75,7 @@ class _GPSSettingState extends State<GPSSetting> {
   _getLocation() async {
     try {
       var pro = Provider.of<ProfileProvider>(context, listen: false);
-
+      final User? user = FirebaseAuth.instance.currentUser;
       bool isAllowed = await requestLocationPermission();
       loc.LocationData? locationResult;
       //final loc.LocationData? locationResult = await _checkPermission();
@@ -86,11 +87,11 @@ class _GPSSettingState extends State<GPSSetting> {
       if (locationResult != null) {
         await FirebaseFirestore.instance
             .collection('location')
-            .doc(pro.currentUserUid)
+            .doc(user!.uid)
             .set({
           'latitude': locationResult.latitude,
           'longitude': locationResult.longitude,
-          'name': pro.profileName,
+          'name': "change it",
         });
       } else {
         snackBar(context, "Location is not granted");
@@ -101,6 +102,7 @@ class _GPSSettingState extends State<GPSSetting> {
   }
 
   Future<void> _onLocationChange() async {
+    final User? user = FirebaseAuth.instance.currentUser;
     _locationSub = location.onLocationChanged.handleError((onError) {
       print(onError);
       _locationSub!.cancel();
@@ -112,11 +114,11 @@ class _GPSSettingState extends State<GPSSetting> {
       await Future.delayed(const Duration(seconds: 2));
       await FirebaseFirestore.instance
           .collection('location')
-          .doc(pro.currentUserUid)
+          .doc(user!.uid)
           .set({
         'latitude': currentLocation.latitude,
         'longitude': currentLocation.longitude,
-        'name': pro.profileName,
+        'name': "Change it",
       });
     });
   }

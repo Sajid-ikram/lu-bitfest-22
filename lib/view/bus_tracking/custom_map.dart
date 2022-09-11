@@ -80,11 +80,13 @@ class _CustomMapState extends State<CustomMap> {
       AsyncSnapshot<QuerySnapshot<Object?>> snapshot, MapProvider pro) {
     print("----------------------------------");
     return GoogleMap(
+
       zoomGesturesEnabled: true,
       zoomControlsEnabled: true,
       onCameraMove: (CameraPosition cameraPosition) {
         userCameraPosition = cameraPosition;
       },
+
       initialCameraPosition: CameraPosition(
         target: pro.userLocation == null
             ? const LatLng(24.89489077447926, 91.86879280019157)
