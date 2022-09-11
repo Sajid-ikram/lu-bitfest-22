@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'csv/go_csv.dart';
+
 class CustomRoute extends StatefulWidget {
   const CustomRoute({Key? key}) : super(key: key);
 
@@ -28,21 +30,30 @@ class _CustomRouteState extends State<CustomRoute> {
               icon: Icon(Icons.add))
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream:
-        FirebaseFirestore.instance.collection("routes").snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text("Something went wrong"));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
+      body: Column(
+        children: [
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => GOCSV()));
+          }, child: Text("GO CSV")),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream:
+              FirebaseFirestore.instance.collection("routes").snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(child: Text("Something went wrong"));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
 
-          final data = snapshot.data;
+                final data = snapshot.data;
 
-          return _buildConsumer(data!);
-        },
+                return _buildConsumer(data!);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
