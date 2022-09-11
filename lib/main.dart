@@ -116,12 +116,11 @@ class _MiddleOfHomeAndSignInState extends State<MiddleOfHomeAndSignIn> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return buildLoadingWidget();
         }
-        if (snapshot.data != null && snapshot.data!.emailVerified) {
+        if (snapshot.data != null) {
           return const Home();
         }
-        return snapshot.data == null
-            ? const Login()
-            : const Verification();
+        return  const LogIn();
+
       },
     );
   }
