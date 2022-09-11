@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bus/addBusInventory.dart';
+import 'login.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
   static String verify = "";
   static String name = "";
   static String number = "";
+  static String id = "";
 
   @override
   State<Registration> createState() => _RegistrationState();
@@ -18,7 +20,9 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   TextEditingController countryController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController idController = TextEditingController();
   var phone = "";
+  bool isUser = true;
 
 
   @override
@@ -49,10 +53,73 @@ class _RegistrationState extends State<Registration> {
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              SizedBox(
+                height: 70.h,
+                width: 360.w,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          isUser = true;
+                        });
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 130.w,
+                        decoration: BoxDecoration(
+                          color: isUser ? Colors.black : Colors.grey,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "User",
+                              style: TextStyle(
+                                color: isUser ? Colors.white : Colors.black,
+                              ),
+                            )),
+                      ),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          isUser = false;
+                        });
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 130.w,
+                        decoration: BoxDecoration(
+                          color: isUser ? Colors.grey : Colors.black,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Center(
+                            child: Text(
+                              "Staff",
+                              style: TextStyle(
+                                color: isUser ? Colors.black : Colors.white,
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 5.h),
               customTextField(
                   nameController, "Name", context, Icons.email_outlined),
+
               SizedBox(height: 15.h),
+              if(isUser)
+                customTextField(
+                    idController, "Id", context, Icons.email_outlined),
+
+              SizedBox(height: 10.h),
+
+
+
+              SizedBox(height: 10.h),
               Container(
                 height: 55,
                 decoration: BoxDecoration(
@@ -96,6 +163,9 @@ class _RegistrationState extends State<Registration> {
                 ),
               ),
               const SizedBox(height: 20),
+              switchPageButton(
+                  "Already Have An Account", "LogIn", context),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 45,
@@ -105,25 +175,43 @@ class _RegistrationState extends State<Registration> {
                       snackBar(context, "Please fill all field");
                       return;
                     }
-                    await FirebaseAuth.instance.verifyPhoneNumber(
-                      phoneNumber: countryController.text + phone,
-                      verificationCompleted:
-                          (PhoneAuthCredential credential) {},
-                      verificationFailed: (FirebaseAuthException e) {},
-                      codeSent: (String verificationId, int? resendToken) {
 
-                        Registration.verify = verificationId;
-                        Registration.name = nameController.text;
-                        Registration.number = countryController.text + phone;
+                    if(isUser && idController.text.isEmpty){
+                      snackBar(context, "Please fill all field");
+                      return;
+                    }
 
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => MyVerify(pageName: "registration"),
-                          ),
-                        );
-                      },
-                      codeAutoRetrievalTimeout: (String verificationId) {},
-                    );
+
+                    try{
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: countryController.text + phone,
+                        verificationCompleted:
+                            (PhoneAuthCredential credential) {},
+                        verificationFailed: (FirebaseAuthException e) {
+                          print(e);
+                          print("v fail -------------------------------------");
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+
+                          Registration.verify = verificationId;
+                          Registration.name = nameController.text;
+                          Registration.number = countryController.text + phone;
+                          Registration.id = idController.text;
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MyVerify(pageName: "registration"),
+                            ),
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {
+                          print("timeout fail -------------------------------------");
+                        },
+                      );
+                    }catch(e){
+                      print(e);
+                      print("eee fail -------------------------------------");
+                    }
                   },
                   child: Container(
                     height: 50.h,

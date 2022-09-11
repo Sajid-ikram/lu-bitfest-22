@@ -171,7 +171,13 @@ Padding switchPageButton(String text1, String text2, BuildContext context) {
                 ),
               );
             } else {
-              Navigator.of(context).pushReplacementNamed("SignIn");
+              Navigator.of(context).push(
+                MaterialPageRoute(
+
+                  builder: (context) => LogIn(),
+
+                ),
+              );
             }
           },
           child: Text(
