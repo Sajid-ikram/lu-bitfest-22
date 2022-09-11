@@ -1,4 +1,6 @@
+import 'package:bitfest/view/profile/update_profile_info.dart';
 import 'package:bitfest/view/profile/widgets/profile_row.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -60,39 +62,77 @@ class _ProfileState extends State<Profile> {
               ),
             ],
           ),
-
-          (pro.role == "Student") ?
-          Column(
-            children: [
-              profileRow("Name", pro.profileName, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-              profileRow("Batch no", pro.batch, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-              profileRow("Section", pro.section, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-            ],
-          ) : Column(
-            children: [
-              profileRow("Department", pro.department, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-              profileRow("Code name", pro.code_name, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-              profileRow("Designation", pro.designation, context, true),
-              Divider(
-                thickness: 1.w,
-              ),
-            ],
-          ),
+          (pro.role == "Student")
+              ? Column(
+                  children: [
+                    profileRow("Name", pro.profileName, context, false),
+                    Divider(
+                      thickness: 1.w,
+                    ),
+                    profileRow("Batch no", pro.batch, context, false),
+                    Divider(
+                      thickness: 1.w,
+                    ),
+                    profileRow("Section", pro.section, context, false),
+                    Divider(
+                      thickness: 1.w,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (_) => const UpdateProfileInfo()));
+                      },
+                      child: const Text(
+                        "Update Profile",
+                      ),
+                    ),
+                  ],
+                )
+              : (pro.role == "Teacher")
+                  ? Column(
+                      children: [
+                        profileRow(
+                            "Department", pro.department, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                        profileRow("Code name", pro.code_name, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                        profileRow(
+                            "Designation", pro.designation, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const UpdateProfileInfo()));
+                          },
+                          child: const Text(
+                            "Update Profile",
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        profileRow("Name", pro.profileName, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                        profileRow("Role", pro.role, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                        profileRow(
+                            "Contact number", pro.number, context, false),
+                        Divider(
+                          thickness: 1.w,
+                        ),
+                      ],
+                    ),
         ],
       ),
     );

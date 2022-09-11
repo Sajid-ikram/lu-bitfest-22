@@ -19,14 +19,14 @@ class ProfileProvider extends ChangeNotifier {
   String number = '';
 
   getUserInfo() async {
-    final User? user = FirebaseAuth.instance.currentUser;
-    if(user!=null){
+
+    if(FirebaseAuth.instance.currentUser !=null){
       DocumentSnapshot userInfo =
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
       role = userInfo["role"];
       number = userInfo["number"];
-      currentUserUid = user.uid;
-
+      currentUserUid = FirebaseAuth.instance.currentUser!.uid;
       profileName = userInfo["name"];
       batch = userInfo["batch"];
       section = userInfo["section"];
@@ -36,6 +36,5 @@ class ProfileProvider extends ChangeNotifier {
 
       notifyListeners();
     }
-
   }
 }
