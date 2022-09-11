@@ -4,25 +4,36 @@ import 'package:flutter/cupertino.dart';
 
 class ProfileProvider extends ChangeNotifier {
   String profileUrl = '';
+
   String profileName = '';
+  String batch = '';
+  String section = '';
+  String department = '';
+  String code_name = '';
+  String designation = '';
+
   String role = '';
   String email = '';
-  String department = '';
+
   String currentUserUid = '';
+  String number = '';
 
   getUserInfo() async {
-
-
     final User? user = FirebaseAuth.instance.currentUser;
     if(user!=null){
       DocumentSnapshot userInfo =
       await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-      profileUrl = userInfo["url"];
-      profileName = userInfo["name"];
       role = userInfo["role"];
-      email = userInfo["email"];
-      department = userInfo["department"];
+      number = userInfo["number"];
       currentUserUid = user.uid;
+
+      profileName = userInfo["name"];
+      batch = userInfo["batch"];
+      section = userInfo["section"];
+      department = userInfo["department"];
+      code_name = userInfo["code_name"];
+      designation = userInfo["designation"];
+
       notifyListeners();
     }
 
