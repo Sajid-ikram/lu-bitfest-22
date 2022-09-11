@@ -121,6 +121,8 @@ class _MyVerifyState extends State<MyVerify> {
                               {
                                 "name": Registration.name,
                                 "number": Registration.number,
+                                'id' : Registration.id,
+                                'role' : Registration.role,
                               },
                             );
                           });

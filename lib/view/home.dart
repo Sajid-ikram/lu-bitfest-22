@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'auth/login.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -34,7 +35,10 @@ class _HomeState extends State<Home> {
               child: Text("dipon")),
           TextButton(
               onPressed: () {
-                Provider.of<Authentication>(context,listen: false).signOut();
+                Provider.of<Authentication>(context, listen: false).signOut();
+                MaterialPageRoute(
+                  builder: (context) => LogIn(),
+                );
               },
               child: Text("logout")),
         ],
