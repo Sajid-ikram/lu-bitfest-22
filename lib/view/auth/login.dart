@@ -165,7 +165,9 @@ Padding switchPageButton(String text1, String text2, BuildContext context) {
             if (text2 == "Register now") {
               Navigator.of(context).push(
                 MaterialPageRoute(
+
                   builder: (context) => Registration(),
+
                 ),
               );
             } else {
