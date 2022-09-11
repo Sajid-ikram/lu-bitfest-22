@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
 
           return MaterialApp(
               debugShowCheckedModeBanner: false,
-              title: 'LU Bird',
+              title: 'bitfest',
 
               home: const Initial(),
               routes: {
