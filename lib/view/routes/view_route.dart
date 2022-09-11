@@ -1,3 +1,4 @@
+import 'package:bitfest/view/routes/update_stoppage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,14 +78,14 @@ Widget _stoppageList(BuildContext context , String routeNumber){
 
         final data = snapshot.data;
 
-        return _buildConsumer(data!);
+        return _buildConsumer(data! , routeNumber);
       },
     ),
   );
 }
 
 
-Widget _buildConsumer(QuerySnapshot data) {
+Widget _buildConsumer(QuerySnapshot data , String routeNumber) {
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     padding: EdgeInsets.only(bottom: 65.h),
@@ -104,26 +105,24 @@ Widget _buildConsumer(QuerySnapshot data) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildRow("Route Label :", data.docs[index]["stoppageLabel"]),
+                  buildRow("Stoppage Label :", data.docs[index]["stoppageLabel"]),
+                  buildRow("Location :", "(${data.docs[index]["stoppageLatitude"]} , ${data.docs[index]["stoppageLongitude"]})"),
                 ],
               ),
             ),
             Spacer(),
             IconButton(
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => EditBusInventory(
-                //       capacity: data.docs[index]["capacity"],
-                //       driverPhone: data.docs[index]["driverPhone"],
-                //       driverName: data.docs[index]["driverName"],
-                //       isAc: data.docs[index]["isActive"] ,
-                //       codeName: data.docs[index]["codename"],
-                //       licence: data.docs[index]["licence"],
-                //       uid: data.docs[index].id,
-                //     ),
-                //   ),
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UpdateStoppage(
+                        routeNumber : routeNumber,
+                    stoppageLabel : data.docs[index]["stoppageLabel"],
+                    stoppageLatitude : data.docs[index]["stoppageLatitude"],
+                    stoppageLongitude : data.docs[index]["stoppageLongitude"],
+                    ),
+                  ),
+                );
               },
               icon: Icon(Icons.edit),
             )
