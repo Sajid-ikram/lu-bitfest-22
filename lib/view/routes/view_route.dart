@@ -1,52 +1,89 @@
-import 'package:bitfest/view/routes/add_routes.dart';
 import 'package:bitfest/view/routes/view_stoppage.dart';
-import 'package:bitfest/view/routes/view_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomRoute extends StatefulWidget {
-  const CustomRoute({Key? key}) : super(key: key);
+import 'add_stoppage.dart';
+
+class ViewRoute extends StatefulWidget {
+  ViewRoute({Key? key , required this.routeNumber}) : super(key: key);
+
+  String routeNumber;
 
   @override
-  State<CustomRoute> createState() => _CustomRouteState();
+  State<ViewRoute> createState() => _ViewRouteState();
 }
 
-class _CustomRouteState extends State<CustomRoute> {
+class _ViewRouteState extends State<ViewRoute> {
+
+  bool isLoading = true;
+  late DocumentSnapshot routeInfo;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    routeInfo = await FirebaseFirestore.instance.collection('routes').doc(widget.routeNumber).get();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Routes'),
+        title: Text('Stoppage List of Route ${widget.routeNumber}'),
         backgroundColor: Colors.black,
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, "AddBusInventory");
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddStoppage(routeNumber: widget.routeNumber) ));
               },
               icon: Icon(Icons.add))
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream:
-        FirebaseFirestore.instance.collection("routes").snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(child: Text("Something went wrong"));
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
+      body: Column(
+          children : [
 
-          final data = snapshot.data;
+            isLoading ? CircularProgressIndicator() : RouteInfo(context,routeInfo),
 
-          return _buildConsumer(data!);
-        },
+            Text("Stoppage List" , style : TextStyle(fontSize: 20)),
+
+            _stoppageList(context , widget.routeNumber),
+
+          ]
       ),
     );
+    ;
   }
 }
+
+Widget _stoppageList(BuildContext context , String routeNumber){
+  return Expanded(
+    child: StreamBuilder<QuerySnapshot>(
+      stream:
+      FirebaseFirestore.instance.collection("routes").doc(routeNumber).collection("stoppages").snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(child: Text("Something went wrong"));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final data = snapshot.data;
+
+        return _buildConsumer(data!);
+      },
+    ),
+  );
+}
+
 
 Widget _buildConsumer(QuerySnapshot data) {
   return ListView.builder(
@@ -63,13 +100,12 @@ Widget _buildConsumer(QuerySnapshot data) {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewRoute( routeNumber: data.docs[index]["routeNumber"],)));
+                //Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewRoute( routeNumber: data.docs[index]["routeNumber"],)));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildRow("Route Label :", data.docs[index]["routeLabel"]),
-                  buildRow("Start Time :", data.docs[index]["startTime"]),
+                  buildRow("Route Label :", data.docs[index]["stoppageLabel"]),
                 ],
               ),
             ),
@@ -132,3 +168,20 @@ Row buildRow(String text1, String text2) {
     ],
   );
 }
+
+Widget RouteInfo(BuildContext context , DocumentSnapshot<Object?> routeInfo) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+        child : Column(
+          children: [
+            Text("Route Number ${routeInfo['routeNumber']}" , style: TextStyle(fontSize: 20),),
+            Text("Route routeLabel : ${routeInfo['routeLabel']}"),
+            Text("Route routeLatitude : ${routeInfo['routeLatitude']}"),
+            Text("Route routeLongitude : ${routeInfo['routeLongitude']}"),
+          ],
+        )
+    ),
+  );
+}
+
