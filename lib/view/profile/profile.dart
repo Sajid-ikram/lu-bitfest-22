@@ -61,12 +61,37 @@ class _ProfileState extends State<Profile> {
             ],
           ),
 
-          SizedBox(
-            height: 20.w,
-          ),
-          profileRow("Name", pro.profileName, context, true),
-          Divider(
-            thickness: 1.w,
+          (pro.role == "Student") ?
+          Column(
+            children: [
+              profileRow("Name", pro.profileName, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+              profileRow("Batch no", pro.batch, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+              profileRow("Section", pro.section, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+            ],
+          ) : Column(
+            children: [
+              profileRow("Department", pro.department, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+              profileRow("Code name", pro.code_name, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+              profileRow("Designation", pro.designation, context, true),
+              Divider(
+                thickness: 1.w,
+              ),
+            ],
           ),
         ],
       ),
