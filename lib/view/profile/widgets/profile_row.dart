@@ -29,17 +29,10 @@ profileRow(
           ),
         ),
         (editable) //&& pro.role == 'student')
-            ? GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    'UpdateProfileInfo',
-                  );
-                },
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.blueGrey,
-                  //size: 15,
-                ),
+            ? const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.blueGrey,
+                //size: 15,
               )
             : const Text(' '),
       ],
