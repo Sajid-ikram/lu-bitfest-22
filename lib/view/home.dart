@@ -1,4 +1,4 @@
-
+import 'package:bitfest/view/optimal_suggestion/passenges_estimation.dart';
 import 'package:bitfest/view/profile/profile.dart';
 import 'package:bitfest/view/seat_request/seat_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
     Icons.book_online,
     Icons.calendar_month,
     Icons.calendar_today_outlined,
+    Icons.calculate_outlined,
   ];
   List<String> titles = [
     "Track Bus",
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
     "Request Seat",
     "Bus Schedule",
     "Class Routine",
-    "Request Seat",
+    "Estimate",
   ];
 
   Future<bool> requestLocationPermission() async {
@@ -122,6 +123,9 @@ class _HomeState extends State<Home> {
                         builder: (context) => BusSchedule(
                               name: 'Routine',
                             )));
+                  } else if (index == 5) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PassengerEstimation()));
                   }
                 },
                 child: Container(

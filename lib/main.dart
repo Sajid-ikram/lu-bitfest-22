@@ -1,6 +1,7 @@
 import 'package:bitfest/custom_navigation.dart';
 import 'package:bitfest/providers/auth_provider.dart';
 import 'package:bitfest/providers/bus_provider.dart';
+import 'package:bitfest/providers/estimation_provider.dart';
 import 'package:bitfest/providers/map_provider.dart';
 import 'package:bitfest/providers/pdf_and_notification_provider.dart';
 import 'package:bitfest/providers/profile_provider.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BusProvider()),
         ChangeNotifierProvider(create: (_) => MapProvider()),
         ChangeNotifierProvider(create: (_) => PDFAndNotificationProvider()),
+        ChangeNotifierProvider(create: (_) => EstimatedProvider()),
 
       ],
       child: ScreenUtilInit(

@@ -40,6 +40,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
       extendBody: true,
       body: pages[_bottomNavIndex],
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        backgroundColor: Color(0xffEEEEEE),
         icons: icons,
         notchSmoothness: NotchSmoothness.softEdge,
         activeIndex: _bottomNavIndex,
