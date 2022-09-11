@@ -1,5 +1,6 @@
 import 'package:bitfest/providers/auth_provider.dart';
 import 'package:bitfest/providers/bus_provider.dart';
+import 'package:bitfest/providers/map_provider.dart';
 import 'package:bitfest/providers/profile_provider.dart';
 import 'package:bitfest/public/custom_loading.dart';
 import 'package:bitfest/view/auth/login.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => Authentication()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => BusProvider()),
+        ChangeNotifierProvider(create: (_) => MapProvider()),
 
       ],
       child: ScreenUtilInit(
