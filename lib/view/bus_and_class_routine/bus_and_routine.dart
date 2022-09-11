@@ -23,7 +23,7 @@ class _BusScheduleState extends State<BusSchedule> {
   pickFile() async {
     print("fghf--------------------------------");
     FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: false);
+    await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result != null && result.files.single.path != null) {
       File file = File(result.files.single.path!);
       var pro = Provider.of<PDFAndNotificationProvider>(context, listen: false);
@@ -61,17 +61,17 @@ class _BusScheduleState extends State<BusSchedule> {
         ),
         actions: [
           if(pro.role != "Student" || true)
-          IconButton(
-            onPressed: () {
-              print("============================");
-              pickFile();
-            },
-            icon: Icon(
-              Icons.add,
-              color: Colors.black,
-              size: 24.sp,
-            ),
-          )
+            IconButton(
+              onPressed: () {
+                print("============================");
+                pickFile();
+              },
+              icon: Icon(
+                Icons.add,
+                color: Colors.black,
+                size: 24.sp,
+              ),
+            )
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(

@@ -91,7 +91,7 @@ class _GPSSettingState extends State<GPSSetting> {
             .set({
           'latitude': locationResult.latitude,
           'longitude': locationResult.longitude,
-          'name': "change it",
+          'name': pro.profileName,
         });
       } else {
         snackBar(context, "Location is not granted");
@@ -118,7 +118,7 @@ class _GPSSettingState extends State<GPSSetting> {
           .set({
         'latitude': currentLocation.latitude,
         'longitude': currentLocation.longitude,
-        'name': "Change it",
+        'name':  pro.profileName,
       });
     });
   }

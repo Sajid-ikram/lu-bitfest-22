@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../providers/map_provider.dart';
 import '../bus/addBusInventory.dart';
 import '../bus_and_class_routine/bus_and_routine.dart';
+import '../seat_request/seat_request.dart';
 import 'custom_map.dart';
 
 class TrackingPage extends StatefulWidget {
@@ -100,8 +101,24 @@ class _TrackingPageState extends State<TrackingPage> {
               child: Text("routine")),
 
 
+          TextButton(
+              onPressed: () async {
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>  RequestSeat()));
+              },
+              child: Text("seat")),
+
+
         ],
       ),
     );
   }
+}
+
+
+snackBar(BuildContext context, String text) {
+  final snackBar = SnackBar(content: Text(text));
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  return ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

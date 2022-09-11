@@ -42,7 +42,6 @@ dependencies:
   google_maps_flutter: ^2.1.10
   location: ^4.4.0
   permission_handler: ^10.0.0
-  file_picker: ^5.0.1
   firebase_storage: ^10.3.8
   syncfusion_flutter_pdfviewer: ^19.4.48-beta
 
