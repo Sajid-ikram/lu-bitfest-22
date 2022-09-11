@@ -1,3 +1,4 @@
+import 'package:bitfest/custom_navigation.dart';
 import 'package:bitfest/providers/auth_provider.dart';
 import 'package:bitfest/providers/bus_provider.dart';
 import 'package:bitfest/providers/map_provider.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
                 "ikram": (ctx) => const AllBuses(),
                 "AddBusInventory": (ctx) => const AddBusInventory(),
                 "UpdateProfileInfo": (ctx) => const UpdateProfileInfo(),
+                "MiddleOfHomeAndSignIn": (ctx) => const MiddleOfHomeAndSignIn(),
 
               });
         },
@@ -123,7 +125,7 @@ class _MiddleOfHomeAndSignInState extends State<MiddleOfHomeAndSignIn> {
           return buildLoadingWidget();
         }
         if (snapshot.data != null) {
-          return const Home();
+          return const CustomNavigation();
         }
         return  const LogIn();
 

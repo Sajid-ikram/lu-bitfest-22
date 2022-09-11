@@ -1,9 +1,11 @@
+import 'package:bitfest/providers/profile_provider.dart';
 import 'package:bitfest/view/bus/addBusInventory.dart';
 import 'package:bitfest/view/bus/editBusInventory.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class AllBuses extends StatefulWidget {
   const AllBuses({Key? key}) : super(key: key);
@@ -15,16 +17,21 @@ class AllBuses extends StatefulWidget {
 class _AllBusesState extends State<AllBuses> {
   @override
   Widget build(BuildContext context) {
+    var pro = Provider.of<ProfileProvider>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bus Inventry'),
-        backgroundColor: Colors.black,
+        title: Text('Bus Inventry',style:  TextStyle(color: Colors.black),),
+
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
         actions: [
+          if(pro.role == "Staff")
           IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, "AddBusInventory");
               },
-              icon: Icon(Icons.add))
+              icon: Icon(Icons.add,color: Colors.black,))
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -40,14 +47,15 @@ class _AllBusesState extends State<AllBuses> {
 
           final data = snapshot.data;
 
-          return _buildConsumer(data!);
+          return _buildConsumer(data!, context);
         },
       ),
     );
   }
 }
 
-Widget _buildConsumer(QuerySnapshot data) {
+Widget _buildConsumer(QuerySnapshot data, BuildContext context) {
+  var pro = Provider.of<ProfileProvider>(context,listen: false);
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     padding: EdgeInsets.only(bottom: 65.h),
@@ -73,6 +81,7 @@ Widget _buildConsumer(QuerySnapshot data) {
               ],
             ),
             Spacer(),
+            if(pro.role == "Staff")
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
