@@ -54,17 +54,17 @@ class _GPSSettingState extends State<GPSSetting> {
                 onPressed: (){
                   _getLocation();
                 },
-                child: const Text("Add My Location")),
+                child: const Text("Show bus on map")),
             TextButton(
                 onPressed: () {
                   _onLocationChange();
                 },
-                child: const Text("Enable Live Location")),
+                child: const Text("Start bus live tracking")),
             TextButton(
                 onPressed: () {
                   _stopListening();
                 },
-                child: const Text("Stop Live Location")),
+                child: const Text("Stop Bus Live Location")),
 
           ],
         ),

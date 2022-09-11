@@ -1,6 +1,7 @@
 import 'package:bitfest/providers/auth_provider.dart';
 import 'package:bitfest/providers/bus_provider.dart';
 import 'package:bitfest/providers/map_provider.dart';
+import 'package:bitfest/providers/pdf_and_notification_provider.dart';
 import 'package:bitfest/providers/profile_provider.dart';
 import 'package:bitfest/public/custom_loading.dart';
 import 'package:bitfest/view/auth/login.dart';
@@ -8,6 +9,7 @@ import 'package:bitfest/view/auth/verification.dart';
 import 'package:bitfest/view/bus/addBusInventory.dart';
 import 'package:bitfest/view/bus/bus.dart';
 import 'package:bitfest/view/home.dart';
+import 'package:bitfest/view/profile/update_profile_info.dart';
 import 'package:bitfest/view/routes/route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => BusProvider()),
         ChangeNotifierProvider(create: (_) => MapProvider()),
+        ChangeNotifierProvider(create: (_) => PDFAndNotificationProvider()),
 
       ],
       child: ScreenUtilInit(
@@ -58,6 +61,7 @@ class MyApp extends StatelessWidget {
                 "route": (ctx) =>  const CustomRoute(),
                 "ikram": (ctx) => const AllBuses(),
                 "AddBusInventory": (ctx) => const AddBusInventory(),
+                "UpdateProfileInfo": (ctx) => const UpdateProfileInfo(),
 
               });
         },
