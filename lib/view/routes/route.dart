@@ -17,8 +17,12 @@ class CustomRoute extends StatefulWidget {
 }
 
 class _CustomRouteState extends State<CustomRoute> {
+  
   @override
   Widget build(BuildContext context) {
+    
+    var size = MediaQuery.of(context).size;
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Routes'),
@@ -26,38 +30,26 @@ class _CustomRouteState extends State<CustomRoute> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, "AddBusInventory");
+
               },
               icon: Icon(Icons.add))
         ],
       ),
-      body: Column(
-        children: [
-          ElevatedButton(onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => GOCSV()));
-          }, child: Text("GO CSV")),
-          ElevatedButton(onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpcommingBusSchedule()));
-          }, child: Text("Upcomming Bus Schedule")),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream:
-              FirebaseFirestore.instance.collection("routes").snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(child: Text("Something went wrong"));
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
+      body: StreamBuilder<QuerySnapshot>(
+        stream:
+        FirebaseFirestore.instance.collection("routes").snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text("Something went wrong"));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
-                final data = snapshot.data;
+          final data = snapshot.data;
 
-                return _buildConsumer(data!);
-              },
-            ),
-          ),
-        ],
+          return _buildConsumer(data!);
+        },
       ),
     );
   }

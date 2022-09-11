@@ -37,21 +37,24 @@ class _GOCSVState extends State<GOCSV> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark,
-            // For Android (dark icons)
-            statusBarBrightness: Brightness.light, // For iOS (dark icons)
-          ),
-          title: const Text("Routine Data Entry",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              )),
+          title: Text('Update Automation DB'),
+          backgroundColor: Colors.black,
+          actions: [
+
+          ],
         ),
         body: Center(
           child: isLoading ? CircularProgressIndicator() : Column(
             children: [
+
+              if(filePath != null)
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                      width: double.infinity,
+                      child: Text(filePath.toString())),
+                ),
+
               ElevatedButton(
                 child: const Text("Upload FIle"),
                 onPressed: () {
@@ -59,6 +62,7 @@ class _GOCSVState extends State<GOCSV> {
                 },
               ),
 
+              if(filePath != null)
               Container(
                 child: ElevatedButton(
                   onPressed: () async {
@@ -144,7 +148,10 @@ class _GOCSVState extends State<GOCSV> {
                     });
 
                   },
-                  child: const Text("Iterate Data"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: const Text("Update DB"),
+                  ),
                 ),
               ),
             ],
