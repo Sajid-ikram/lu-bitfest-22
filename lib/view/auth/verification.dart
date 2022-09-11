@@ -126,6 +126,9 @@ class _MyVerifyState extends State<MyVerify> {
                               },
                             );
                           });
+                        }else{
+                          await auth
+                              .signInWithCredential(credential);
                         }
 
                         Navigator.pushNamed(context, "home");
