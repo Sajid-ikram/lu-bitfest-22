@@ -5,18 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../bus/addBusInventory.dart';
 
-class LogIn extends StatefulWidget {
-  const LogIn({Key? key}) : super(key: key);
+class Registration extends StatefulWidget {
+  const Registration({Key? key}) : super(key: key);
   static String verify = "";
-
+  static String name = "";
+  static String number = "";
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<Registration> createState() => _RegistrationState();
 }
 
-class _LogInState extends State<LogIn> {
+class _RegistrationState extends State<Registration> {
   TextEditingController countryController = TextEditingController();
-
+  TextEditingController nameController = TextEditingController();
   var phone = "";
 
 
@@ -39,17 +40,18 @@ class _LogInState extends State<LogIn> {
             children: [
               const SizedBox(height: 25),
               const Text(
-                "LogIn",
+                "Registration",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               const Text(
-                "Login with Phone number ",
+                "Give tour name and phone number",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
-
+              customTextField(
+                  nameController, "Name", context, Icons.email_outlined),
               SizedBox(height: 15.h),
               Container(
                 height: 55,
@@ -81,15 +83,15 @@ class _LogInState extends State<LogIn> {
                     ),
                     Expanded(
                         child: TextField(
-                          onChanged: (value) {
-                            phone = value;
-                          },
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Phone",
-                          ),
-                        ))
+                      onChanged: (value) {
+                        phone = value;
+                      },
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Phone",
+                      ),
+                    ))
                   ],
                 ),
               ),
@@ -99,8 +101,8 @@ class _LogInState extends State<LogIn> {
                 height: 45,
                 child: GestureDetector(
                   onTap: () async {
-                    if (phone.isEmpty) {
-                      snackBar(context, "Please enter a number");
+                    if (phone.isEmpty || nameController.text.isEmpty) {
+                      snackBar(context, "Please fill all field");
                       return;
                     }
                     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -110,12 +112,13 @@ class _LogInState extends State<LogIn> {
                       verificationFailed: (FirebaseAuthException e) {},
                       codeSent: (String verificationId, int? resendToken) {
 
-                        LogIn.verify = verificationId;
-
+                        Registration.verify = verificationId;
+                        Registration.name = nameController.text;
+                        Registration.number = countryController.text + phone;
 
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => MyVerify(pageName: "login"),
+                            builder: (context) => MyVerify(pageName: "registration"),
                           ),
                         );
                       },
@@ -131,7 +134,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     child: Center(
                       child: Text(
-                        "LogIn",
+                        "Register",
                         style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.white,
