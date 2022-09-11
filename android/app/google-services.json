@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "349524718046",
+    "project_id": "bitfest",
+    "storage_bucket": "bitfest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349524718046:android:4854990a9956c83e35ad4f",
+        "android_client_info": {
+          "package_name": "com.example.bitfest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349524718046-6651c0upjdslu5nmoh7ntqohckob8vrb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bitfest",
+            "certificate_hash": "d92a6654d9808e03bd5a404924b7ccb39a85299d"
+          }
+        },
+        {
+          "client_id": "349524718046-ck7ji2adk48k62258f3q8a7ta1eke9vg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ7Y3vnlUtdBxM8wOh6a-B-8Lvjji3eJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349524718046-ck7ji2adk48k62258f3q8a7ta1eke9vg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
