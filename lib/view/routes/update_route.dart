@@ -101,7 +101,6 @@ class _UpdateRouteState extends State<UpdateRoute> {
                   "routeLatitude": latitudeController.text,
                   "routeLongitude": longitudeController.text,
                   "startTime": startTimeController.text,
-
                 },
               );
               // FirebaseFirestore.instance.collection("routes").doc(routeNumberController.text).set(route);
