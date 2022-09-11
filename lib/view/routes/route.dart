@@ -1,4 +1,5 @@
 import 'package:bitfest/view/routes/add_routes.dart';
+import 'package:bitfest/view/routes/upcomming_bus_schedule/schedule.dart';
 import 'package:bitfest/view/routes/update_route.dart';
 import 'package:bitfest/view/routes/view_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,6 +36,9 @@ class _CustomRouteState extends State<CustomRoute> {
           ElevatedButton(onPressed: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (_) => GOCSV()));
           }, child: Text("GO CSV")),
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpcommingBusSchedule()));
+          }, child: Text("Upcomming Bus Schedule")),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream:

@@ -43,110 +43,112 @@ class _GOCSVState extends State<GOCSV> {
             // For Android (dark icons)
             statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
-          title: const Text("Bulk Upload",
+          title: const Text("Routine Data Entry",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
               )),
         ),
-        body: isLoading ? CircularProgressIndicator() : Column(
-          children: [
-            ElevatedButton(
-              child: const Text("Upload FIle"),
-              onPressed: () {
-                _pickFile();
-              },
-            ),
-
-            Container(
-              child: ElevatedButton(
-                onPressed: () async {
-                  // set loading to true here
-
-                  setState(() {
-                    isLoading = true;
-                  });
-
-                  bool routineActive = false;
-
-                  String day = "";
-                  String batch = "";
-                  String section = "";
-                  String startingTime = "";
-                  String endingTime = "";
-                  List<dynamic> timeTable = [];
-
-                  for (var element in _data) // for skip first value bcs its contain name
-                  {
-
-                    if (element[0] == 'SUNDAY' || element[0] == 'Monday' || element[0] == 'TUESDAY' || element[0] == 'WEDNESDAY' || element[0] == 'THURSDAY' || element[0] == 'FRIDAY' || element[0] == 'SATURDAY') {
-                      routineActive = true;
-
-                      if(element[0] == 'SUNDAY'){
-                        day = "SUNDAY";
-                      }else if(element[0] == 'Monday'){
-                        day = "Monday";
-                      }else if(element[0] == 'TUESDAY'){
-                        day = "TUESDAY";
-                      }else if(element[0] == 'WEDNESDAY'){
-                        day = "WEDNESDAY";
-                      }else if(element[0] == 'THURSDAY'){
-                        day = "THURSDAY";
-                      }else if(element[0] == 'FRIDAY'){
-                        day = "FRIDAY";
-                      }else if(element[0] == 'SATURDAY'){
-                        day = "SATURDAY";
-                      }
-
-                      timeTable = element;
-
-                    } else if (element[0] == "" && routineActive) {
-                      batch = element[2].toString();
-                      section = element[1].toString();
-
-                      for (int i = 3; i < 10; i++) {
-                        if(element[i].toString() != ""){
-                          startingTime = timeTable[i].toString();
-                          break;
-                        }
-                      }
-
-                      for (int i = 11; i > 0; i--) {
-                        if(element[i].toString() != ""){
-                          endingTime = timeTable[i].toString();
-                          break;
-                        }
-                      }
-
-
-                      if(day != ""){
-                        print("Non Empty Day : $day");
-                        pushData( startingTime ,  endingTime,  batch ,  day ,  section);
-
-                      }
-
-                      print("starting_time : $startingTime");
-                      print("ending time : $endingTime");
-                      print("batch : $batch ");
-                      print("section : $section");
-                      print("day : $day");
-
-                      batch = "";
-                      section = "";
-                      startingTime = "";
-                      endingTime = "";
-                    }
-                  }
-
-                  setState(() {
-                    isLoading = false;
-                  });
-
+        body: Center(
+          child: isLoading ? CircularProgressIndicator() : Column(
+            children: [
+              ElevatedButton(
+                child: const Text("Upload FIle"),
+                onPressed: () {
+                  _pickFile();
                 },
-                child: const Text("Iterate Data"),
               ),
-            ),
-          ],
+
+              Container(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // set loading to true here
+
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    bool routineActive = false;
+
+                    String day = "";
+                    String batch = "";
+                    String section = "";
+                    String startingTime = "";
+                    String endingTime = "";
+                    List<dynamic> timeTable = [];
+
+                    for (var element in _data) // for skip first value bcs its contain name
+                    {
+
+                      if (element[0] == 'SUNDAY' || element[0] == 'Monday' || element[0] == 'TUESDAY' || element[0] == 'WEDNESDAY' || element[0] == 'THURSDAY' || element[0] == 'FRIDAY' || element[0] == 'SATURDAY') {
+                        routineActive = true;
+
+                        if(element[0] == 'SUNDAY'){
+                          day = "SUNDAY";
+                        }else if(element[0] == 'Monday'){
+                          day = "Monday";
+                        }else if(element[0] == 'TUESDAY'){
+                          day = "TUESDAY";
+                        }else if(element[0] == 'WEDNESDAY'){
+                          day = "WEDNESDAY";
+                        }else if(element[0] == 'THURSDAY'){
+                          day = "THURSDAY";
+                        }else if(element[0] == 'FRIDAY'){
+                          day = "FRIDAY";
+                        }else if(element[0] == 'SATURDAY'){
+                          day = "SATURDAY";
+                        }
+
+                        timeTable = element;
+
+                      } else if (element[0] == "" && routineActive) {
+                        batch = element[2].toString();
+                        section = element[1].toString();
+
+                        for (int i = 3; i < 10; i++) {
+                          if(element[i].toString() != ""){
+                            startingTime = timeTable[i].toString();
+                            break;
+                          }
+                        }
+
+                        for (int i = 11; i > 0; i--) {
+                          if(element[i].toString() != ""){
+                            endingTime = timeTable[i].toString();
+                            break;
+                          }
+                        }
+
+
+                        if(day.isNotEmpty && startingTime.isNotEmpty && endingTime.isNotEmpty){
+                          print("Non Empty Day : $day");
+                          pushData( startingTime ,  endingTime,  batch ,  day ,  section);
+
+                        }
+
+                        print("starting_time : $startingTime");
+                        print("ending time : $endingTime");
+                        print("batch : $batch ");
+                        print("section : $section");
+                        print("day : $day");
+
+                        batch = "";
+                        section = "";
+                        startingTime = "";
+                        endingTime = "";
+                      }
+                    }
+
+                    setState(() {
+                      isLoading = false;
+                    });
+
+                  },
+                  child: const Text("Iterate Data"),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 
