@@ -1,5 +1,6 @@
 import 'package:bitfest/view/profile/update_profile_info.dart';
 import 'package:bitfest/view/profile/widgets/profile_row.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,12 +14,25 @@ class Profile extends StatefulWidget {
   @override
   State<Profile> createState() => _ProfileState();
 }
+// void ince() async {
+//   for(var i = 0; i < 3; i++) {
+//     List<String> list = ["CSE", "EEE", "CIVIL"];
+//     for(var j = 0; j < 10; j++) {
+//       int id = 1912020112;
+//       int road = j % 4 + 1;
+//       String roadString = road.toString();
+//       String idString = id.toString();
+//       await FirebaseFirestore.instance.collection("Department").doc(list[i]).collection("Student").doc().set({"name": "Tanzim", "preference": road, "batch": 50, "section": "C"});
+//       id++;
+//     }
+//   }
+// }
 
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<ProfileProvider>(context);
-
+    // ince();
     return Scaffold(
       //backgroundColor: Colors.blueGrey,
       appBar: AppBar(
@@ -34,14 +48,14 @@ class _ProfileState extends State<Profile> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   },
+        //   icon: const Icon(
+        //     Icons.arrow_back_ios,
+        //   ),
+        // ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
