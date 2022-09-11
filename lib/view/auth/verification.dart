@@ -121,17 +121,21 @@ class _MyVerifyState extends State<MyVerify> {
                               {
                                 "name": Registration.name,
                                 "number": Registration.number,
-                                'id' : Registration.id,
-                                'role' : Registration.role,
+                                'id': Registration.id,
+                                'role': Registration.role,
+                                'batch': '',
+                                'code_name': '',
+                                'department': '',
+                                'designation': '',
+                                'section': '',
                               },
                             );
                           });
-                        }else{
-                          await auth
-                              .signInWithCredential(credential);
+                        } else {
+                          await auth.signInWithCredential(credential);
                         }
 
-                        Navigator.pushNamed(context, "home");
+                        Navigator.pushNamed(context, "MiddleOfHomeAndSignIn");
                       } catch (e) {
                         snackBar(context, "Success");
                         print(e);

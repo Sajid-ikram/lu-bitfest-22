@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+//import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../providers/pdf_and_notification_provider.dart';
 import '../../providers/profile_provider.dart';
 
@@ -89,7 +89,7 @@ class _BusScheduleState extends State<BusSchedule> {
           final data = snapshot.data;
           var a = data?.docs.length;
 
-          if (widget.name == "Bus Schedule") {
+          /*if (widget.name == "Bus Schedule") {
             for (int i = 0; i < a!; i++) {
               if (data?.docs[i].id == "Bus Schedule") {
                 return SfPdfViewer.network(data?.docs[i]["busUrl"]);
@@ -101,7 +101,7 @@ class _BusScheduleState extends State<BusSchedule> {
             if (data?.docs[i].id == "Routine") {
               return SfPdfViewer.network(data?.docs[i]["routineUrl"]);
             }
-          }
+          }*/
           return pdfUnavailable();
         },
       ),

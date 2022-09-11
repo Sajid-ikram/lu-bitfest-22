@@ -97,7 +97,7 @@ class _EditBusInventoryState extends State<EditBusInventory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bus Inventry'),
+        title: Text('Edit Bus Inventry'),
         backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
