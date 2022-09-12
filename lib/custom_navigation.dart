@@ -4,6 +4,7 @@ import 'package:bitfest/view/bus/bus.dart';
 import 'package:bitfest/view/home.dart';
 import 'package:bitfest/view/profile/profile.dart';
 import 'package:bitfest/view/routes/route.dart';
+import 'package:bitfest/view/routes/routes_dashboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class _CustomNavigationState extends State<CustomNavigation> {
   List<Widget> pages = [
     const Home(),
     const AllBuses(),
-    const CustomRoute(),
+    const RoutesDashBoard(),
     const Profile(),
   ];
 
