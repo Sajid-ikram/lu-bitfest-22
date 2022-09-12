@@ -1,7 +1,11 @@
+import 'package:bitfest/view/routes/upcomming_bus_schedule/update_upcomming_bus.dart';
 import 'package:bitfest/view/routes/upcomming_bus_schedule/update_upcomming_bus_schedule.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/profile_provider.dart';
 
 class UpcommingBusSchedule extends StatefulWidget {
   const UpcommingBusSchedule({Key? key}) : super(key: key);
@@ -52,16 +56,21 @@ class _UpcommingBusScheduleState extends State<UpcommingBusSchedule> {
 
   @override
   Widget build(BuildContext context) {
+
+    var pro = Provider.of<ProfileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Upcomming Bus Schedule'),
         backgroundColor: Colors.black,
         actions: [
+          if(pro.role == "Staff")
           IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpCommingBusSchedule()));
               },
               icon: Icon(Icons.add_card)),
+          if(pro.role == "Staff")
           IconButton(
               onPressed: () {
                 showAlertDialog(context);
@@ -71,14 +80,14 @@ class _UpcommingBusScheduleState extends State<UpcommingBusSchedule> {
       ),
 
       body: Container(
-        child: _upcommingBusSchedule(context),
+        child: _upcommingBusSchedule(context , pro),
       ),
 
     );
   }
 }
 
-Widget _upcommingBusSchedule (BuildContext context){
+Widget _upcommingBusSchedule (BuildContext context , ProfileProvider pro){
   return Container(
     child: StreamBuilder<QuerySnapshot>(
       stream:
@@ -93,14 +102,14 @@ Widget _upcommingBusSchedule (BuildContext context){
 
         final data = snapshot.data;
 
-        return _buildConsumer(data!);
+        return _buildConsumer(data!,pro);
       },
     ),
   );
 }
 
 
-Widget _buildConsumer(QuerySnapshot data ) {
+Widget _buildConsumer(QuerySnapshot data ,ProfileProvider pro ) {
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     padding: EdgeInsets.only(bottom: 65.h),
@@ -115,7 +124,7 @@ Widget _buildConsumer(QuerySnapshot data ) {
           children: [
             GestureDetector(
               onTap: (){
-                //Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewRoute( routeNumber: data.docs[index]["routeNumber"],)));
+                //Navigator.of(context).push(MaterialPageRoute(builder: (_) => Upa( routeNumber: data.docs[index]["routeNumber"],)));
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,9 +138,10 @@ Widget _buildConsumer(QuerySnapshot data ) {
               ),
             ),
             Spacer(),
+            if(pro.role == "Staff")
             IconButton(
               onPressed: () {
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpdateUpcommingBusSchedule( busCodeName : data.docs[index]["busCodeName"] , routeName : data.docs[index]["routeName"], timeSlot : data.docs[index]["timeSlot"], capacity : data.docs[index]["capacity"])));
               },
               icon: Icon(Icons.edit),
             )

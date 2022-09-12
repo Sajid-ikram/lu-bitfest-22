@@ -6,7 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/profile_provider.dart';
 import 'csv/go_csv.dart';
 
 class CustomRoute extends StatefulWidget {
@@ -22,15 +24,18 @@ class _CustomRouteState extends State<CustomRoute> {
   Widget build(BuildContext context) {
     
     var size = MediaQuery.of(context).size;
-    
+    var pro = Provider.of<ProfileProvider>(context);
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Routes'),
         backgroundColor: Colors.black,
         actions: [
+          if(pro.role == "Staff")
           IconButton(
               onPressed: () {
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddRoutes()));
               },
               icon: Icon(Icons.add))
         ],
@@ -48,14 +53,14 @@ class _CustomRouteState extends State<CustomRoute> {
 
           final data = snapshot.data;
 
-          return _buildConsumer(data!);
+          return _buildConsumer(data! , pro);
         },
       ),
     );
   }
 }
 
-Widget _buildConsumer(QuerySnapshot data) {
+Widget _buildConsumer(QuerySnapshot data , ProfileProvider pro) {
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     padding: EdgeInsets.only(bottom: 65.h),
@@ -81,6 +86,7 @@ Widget _buildConsumer(QuerySnapshot data) {
               ),
             ),
             Spacer(),
+            if(pro.role == "Staff")
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
