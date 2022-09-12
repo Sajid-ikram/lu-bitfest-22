@@ -45,6 +45,8 @@ class _GOCSVState extends State<GOCSV> {
         ),
         body: Center(
           child: isLoading ? CircularProgressIndicator() : Column(
+            mainAxisAlignment:  MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
               if(filePath != null)
@@ -56,10 +58,15 @@ class _GOCSVState extends State<GOCSV> {
                 ),
 
               ElevatedButton(
-                child: const Text("Upload FIle"),
+
+                child: const Text("Upload FIle" , style: TextStyle(color: Colors.black),),
                 onPressed: () {
                   _pickFile();
                 },
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blueGrey,
+                    textStyle: TextStyle(
+                        )),
               ),
 
               if(filePath != null)

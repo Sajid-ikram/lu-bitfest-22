@@ -40,7 +40,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => GOCSV()));
               },
               child: Container(
-                color: Color(0xff425C5A),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
@@ -57,7 +57,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpcommingBusSchedule()));
               },
               child: Container(
-                color: Color(0xff425C5A),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
@@ -74,7 +74,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => CustomRoute()));
               },
               child: Container(
-                color: Color(0xff425C5A),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
