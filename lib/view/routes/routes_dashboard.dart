@@ -1,7 +1,9 @@
 import 'package:bitfest/view/routes/route.dart';
 import 'package:bitfest/view/routes/upcomming_bus_schedule/schedule.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/profile_provider.dart';
 import 'csv/go_csv.dart';
 
 class RoutesDashBoard extends StatefulWidget {
@@ -14,6 +16,9 @@ class RoutesDashBoard extends StatefulWidget {
 class _RoutesDashBoardState extends State<RoutesDashBoard> {
   @override
   Widget build(BuildContext context) {
+
+    var pro = Provider.of<ProfileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -27,6 +32,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
       ),
       body: ListView(
         children: [
+          if(pro.role == "Staff")
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: GestureDetector(
@@ -34,7 +40,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => GOCSV()));
               },
               child: Container(
-                color: Colors.blueGrey.withOpacity(0.2),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
@@ -51,11 +57,11 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => UpcommingBusSchedule()));
               },
               child: Container(
-                color: Colors.blueGrey.withOpacity(0.2),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
-                  child: Text("Live Bus Schedule" , style : TextStyle(fontSize: 18)),
+                  child: Text("Upcomming Bus Schedule" , style : TextStyle(fontSize: 18)),
                 ),
               ),
             ),
@@ -68,11 +74,11 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => CustomRoute()));
               },
               child: Container(
-                color: Colors.blueGrey.withOpacity(0.2),
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
                 width: double.infinity ,
                 height: 100,
                 child: Center(
-                  child: Text("Update Automation Database" , style : TextStyle(fontSize: 18)),
+                  child: Text("View Routes" , style : TextStyle(fontSize: 18)),
                 ),
               ),
             ),

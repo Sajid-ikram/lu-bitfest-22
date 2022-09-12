@@ -2,7 +2,9 @@ import 'package:bitfest/view/routes/update_stoppage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/profile_provider.dart';
 import 'add_stoppage.dart';
 
 class ViewRoute extends StatefulWidget {
@@ -35,11 +37,15 @@ class _ViewRouteState extends State<ViewRoute> {
 
   @override
   Widget build(BuildContext context) {
+
+    var pro = Provider.of<ProfileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Stoppage List of Route ${widget.routeNumber}'),
         backgroundColor: Colors.black,
         actions: [
+          if(pro.role == "Staff")
           IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddStoppage(routeNumber: widget.routeNumber) ));
@@ -54,7 +60,7 @@ class _ViewRouteState extends State<ViewRoute> {
 
             Text("Stoppage List" , style : TextStyle(fontSize: 20)),
 
-            _stoppageList(context , widget.routeNumber),
+            _stoppageList(context , widget.routeNumber , pro) ,
 
           ]
       ),
@@ -63,7 +69,7 @@ class _ViewRouteState extends State<ViewRoute> {
   }
 }
 
-Widget _stoppageList(BuildContext context , String routeNumber){
+Widget _stoppageList(BuildContext context , String routeNumber , ProfileProvider pro){
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
       stream:
@@ -78,14 +84,14 @@ Widget _stoppageList(BuildContext context , String routeNumber){
 
         final data = snapshot.data;
 
-        return _buildConsumer(data! , routeNumber);
+        return _buildConsumer(data! , routeNumber , pro);
       },
     ),
   );
 }
 
 
-Widget _buildConsumer(QuerySnapshot data , String routeNumber) {
+Widget _buildConsumer(QuerySnapshot data , String routeNumber , ProfileProvider pro) {
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     padding: EdgeInsets.only(bottom: 65.h),
@@ -105,12 +111,13 @@ Widget _buildConsumer(QuerySnapshot data , String routeNumber) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildRow("Stoppage Label :", data.docs[index]["stoppageLabel"]),
+                  buildRow("Stoppage Label : ", data.docs[index]["stoppageLabel"]),
                   buildRow("Location :", "(${data.docs[index]["stoppageLatitude"]} , ${data.docs[index]["stoppageLongitude"]})"),
                 ],
               ),
             ),
             Spacer(),
+            if(pro.role == "Staff")
             IconButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -174,9 +181,9 @@ Widget RouteInfo(BuildContext context , DocumentSnapshot<Object?> routeInfo) {
         child : Column(
           children: [
             Text("Route Number ${routeInfo['routeNumber']}" , style: TextStyle(fontSize: 20),),
-            Text("Route routeLabel : ${routeInfo['routeLabel']}"),
-            Text("Route routeLatitude : ${routeInfo['routeLatitude']}"),
-            Text("Route routeLongitude : ${routeInfo['routeLongitude']}"),
+            Text("Route Label : ${routeInfo['routeLabel']}"),
+            Text("Route Latitude : ${routeInfo['routeLatitude']}"),
+            Text("Route Longitude : ${routeInfo['routeLongitude']}"),
           ],
         )
     ),

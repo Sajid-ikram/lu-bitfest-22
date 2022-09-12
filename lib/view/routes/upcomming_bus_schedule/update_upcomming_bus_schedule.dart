@@ -127,6 +127,7 @@ Row buildRow(String text1, String text2) {
           Text(
             text2,
             style: TextStyle(
+              color: text2 == "Active" ? Colors.green : text2 == "Not Active" ? Colors.red : Colors.black,
               fontSize: 15.sp,
               decoration:
               text1 == "Contact : " ? TextDecoration.underline : null,
