@@ -110,16 +110,19 @@ class _GPSSettingState extends State<GPSSetting> {
         _locationSub = null;
       });
     }).listen((loc.LocationData currentLocation) async {
+      print("===========================");
       var pro = Provider.of<ProfileProvider>(context, listen: false);
-      await Future.delayed(const Duration(seconds: 2));
+      print(user!.uid);
+      //await Future.delayed(const Duration(seconds: 2));
       await FirebaseFirestore.instance
           .collection('location')
-          .doc(user!.uid)
+          .doc(user.uid)
           .set({
         'latitude': currentLocation.latitude,
         'longitude': currentLocation.longitude,
         'name':  pro.profileName,
       });
+      print("=========================1==");
     });
   }
 

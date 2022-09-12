@@ -32,15 +32,17 @@ class _HomeState extends State<Home> {
     Icons.calculate_outlined,
     Icons.insert_page_break,
     FontAwesomeIcons.locationDot,
+    FontAwesomeIcons.calendarWeek,
   ];
   List<String> titles = [
     "Track Bus",
     "Request Seat",
     "Bus Schedule",
     "Class Routine",
-    "Automation",
     "Manual Demand",
+    "Automation",
     "Enable Tracking",
+    "Will add",
   ];
 
   Future<bool> requestLocationPermission() async {
@@ -127,10 +129,11 @@ class _HomeState extends State<Home> {
                         )));
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PassengerEstimation()));
+                        builder: (context) => ManualDemandInput()));
+
                   } else if (index == 5) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ManualDemandInput()));
+                        builder: (context) => PassengerEstimation()));
                   }
                   else if (index == 6) {
                     bool result = await requestLocationPermission();
@@ -141,10 +144,12 @@ class _HomeState extends State<Home> {
                       snackBar(context, "Location is not granted");
                     }
 
+                  }else if (index == 6) {
+
 
                   }
                 },
-                child: pro.role != "Staff" && index == 6
+                child: pro.role != "Staff" && (index == 4 || index == 5 || index == 6 || index == 7)
                     ? SizedBox()
                     : Container(
                         width: 150.w,
