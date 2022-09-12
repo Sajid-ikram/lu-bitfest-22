@@ -1,3 +1,4 @@
+import 'package:bitfest/view/routes/request_list.dart';
 import 'package:bitfest/view/routes/route.dart';
 import 'package:bitfest/view/routes/upcomming_bus_schedule/schedule.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 width: double.infinity ,
                 height: 100,
                 child: Center(
-                  child: Text("Update Automation Database" , style : TextStyle(fontSize: 18)),
+                  child: Text("Update Automation Database" , style : TextStyle(fontSize: 18 , color: Colors.white)),
                 ),
               ),
             ),
@@ -61,7 +62,7 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 width: double.infinity ,
                 height: 100,
                 child: Center(
-                  child: Text("Upcomming Bus Schedule" , style : TextStyle(fontSize: 18)),
+                  child: Text("Upcomming Bus - Schedule" , style : TextStyle(fontSize: 18 , color: Colors.white)),
                 ),
               ),
             ),
@@ -78,7 +79,24 @@ class _RoutesDashBoardState extends State<RoutesDashBoard> {
                 width: double.infinity ,
                 height: 100,
                 child: Center(
-                  child: Text("View Routes" , style : TextStyle(fontSize: 18)),
+                  child: Text("View Routes" , style : TextStyle(fontSize: 18 , color: Colors.white)),
+                ),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => RequestList()));
+              },
+              child: Container(
+                decoration: BoxDecoration( borderRadius: BorderRadius.circular(20) , color: Color(0xff425C5A),),
+                width: double.infinity ,
+                height: 100,
+                child: Center(
+                  child: Text("Pending Requests" , style : TextStyle(fontSize: 18 , color: Colors.white)),
                 ),
               ),
             ),

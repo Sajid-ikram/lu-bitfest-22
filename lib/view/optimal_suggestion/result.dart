@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bitfest/providers/profile_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -145,13 +146,7 @@ class _ResultPageState extends State<ResultPage> {
                             }),
                       ),
                       if (pro.r1 + pro.r2 + pro.r3 + pro.r4 > 740)
-                        Text(
-                          "Bus are out of capacity",
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
+                        buildCapacityOut(pro),
                       buildText(pro.r1, "Route1"),
                       SizedBox(height: 5.h),
                       buildText(pro.r2, "Route2"),
@@ -167,6 +162,22 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
+  Text buildCapacityOut(EstimatedProvider pro){
+
+    int value = pro.r1 + pro.r2 + pro.r3 + pro.r4 ;
+
+    value = value - 740;
+
+    int busCount = (value / 50).toInt() ;
+
+   return Text(
+      "Bus are out of capacity , needed more $busCount bus",
+      style: TextStyle(
+          fontSize: 16.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.w600),
+    );
+  }
   Text buildText(int v1, String text1) {
 
     int value = 0;
