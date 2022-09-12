@@ -1,3 +1,4 @@
+import 'package:bitfest/providers/profile_provider.dart';
 import 'package:bitfest/view/optimal_suggestion/passenges_estimation.dart';
 import 'package:bitfest/view/profile/profile.dart';
 import 'package:bitfest/view/seat_request/seat_request.dart';
@@ -5,10 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/map_provider.dart';
+import 'ManualDemand/manual_demand.dart';
 import 'bus_and_class_routine/bus_and_routine.dart';
 import 'bus_tracking/custom_map.dart';
 import 'bus_tracking/gps_settings.dart';
@@ -23,19 +26,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<IconData> icons = [
     Icons.map,
-    Icons.share,
     Icons.book_online,
     Icons.calendar_month,
     Icons.calendar_today_outlined,
     Icons.calculate_outlined,
+    Icons.insert_page_break,
+    FontAwesomeIcons.locationDot,
   ];
   List<String> titles = [
     "Track Bus",
-    "Enable Tracking",
     "Request Seat",
     "Bus Schedule",
     "Class Routine",
-    "Estimate",
+    "Automation",
+    "Manual Demand",
+    "Enable Tracking",
   ];
 
   Future<bool> requestLocationPermission() async {
@@ -71,6 +76,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var pro = Provider.of<ProfileProvider>(context);
+    print(pro.role);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -103,6 +110,29 @@ class _HomeState extends State<Home> {
                       snackBar(context, "Location is not granted");
                     }
                   } else if (index == 1) {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => RequestSeat()));
+
+                  } else if (index == 2) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BusSchedule(
+                          name: 'Bus Schedule',
+                        )));
+
+
+                  } else if (index == 3) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BusSchedule(
+                          name: 'Routine',
+                        )));
+                  } else if (index == 4) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PassengerEstimation()));
+                  } else if (index == 5) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ManualDemandInput()));
+                  }
+                  else if (index == 6) {
                     bool result = await requestLocationPermission();
                     if (result) {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -110,58 +140,46 @@ class _HomeState extends State<Home> {
                     } else {
                       snackBar(context, "Location is not granted");
                     }
-                  } else if (index == 2) {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => RequestSeat()));
-                  } else if (index == 3) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BusSchedule(
-                              name: 'Bus Schedule',
-                            )));
-                  } else if (index == 4) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BusSchedule(
-                              name: 'Routine',
-                            )));
-                  } else if (index == 5) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PassengerEstimation()));
+
+
                   }
                 },
-                child: Container(
-                  width: 150.w,
-                  height: 180.h,
-                  margin: EdgeInsets.all(15.sp),
-                  decoration: BoxDecoration(
-                    color: Color(0xff425C5A),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                          offset: const Offset(0, 7))
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        icons[index],
-                        size: 50.sp,
-                        color: Colors.white,
+                child: pro.role != "Staff" && index == 6
+                    ? SizedBox()
+                    : Container(
+                        width: 150.w,
+                        height: 180.h,
+                        margin: EdgeInsets.all(15.sp),
+                        decoration: BoxDecoration(
+                          color: Color(0xff425C5A),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                                offset: const Offset(0, 7))
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              icons[index],
+                              size: 50.sp,
+                              color: Colors.white,
+                            ),
+                            SizedBox(height: 15.h),
+                            Text(
+                              titles[index],
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 15.h),
-                      Text(
-                        titles[index],
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800),
-                      )
-                    ],
-                  ),
-                ),
               );
             }),
       ),
