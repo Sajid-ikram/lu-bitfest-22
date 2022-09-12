@@ -133,7 +133,7 @@ class _HomeState extends State<Home> {
                   height: 180.h,
                   margin: EdgeInsets.all(15.sp),
                   decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Color(0xff425C5A),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
