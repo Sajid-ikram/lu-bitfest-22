@@ -51,92 +51,92 @@ demand for transit for the maximum number of consumers.
 ## Requirements
 
 1. **As a Transport Dept. official/staff ability to -**
-    - [ ] Open an account with the following information **[Mandatory feature | 5 points]**
-        - [ ] Full name
-        - [ ] Contact number
+    - [x] Open an account with the following information **[Mandatory feature | 5 points]**
+        - [x] Full name
+        - [x] Contact number
         - [ ] ~~Account must be confirmed by the Higher Official or Support Team to access the portal~~
-        - [ ] An official/staff can log in to their portal by **any** of the following:
+        - [x] An official/staff can log in to their portal by **any** of the following:
             - [ ] Combination of username & password
-            - [ ] Mobile number with OTP verification
-        - [ ] Update Bus inventory with the following information **[Mandatory feature | 5 points]**
-            - [ ] License number
-            - [ ] Codename (ie: to uniquely identify)
-            - [ ] Capacity
-            - [ ] Driver info.
-                - [ ] Full Name
-                - [ ] Contact Number
-            - [ ] Is Active (ie: a bus could be in maintenance)
-        - [ ] Create/Update routes with the following information **[Mandatory | 5 points]**
-            - [ ] Route number
-            - [ ] Start location
-                - [ ] Label
-                - [ ] Latitude & Longitude
-            - [ ] Start time
-        - [ ] Create/Update stoppages with the following information **[Nice to have | 2 points]**
-            - [ ] Route number
-            - [ ] Label
-            - [ ] Latitude & Longitude
-        - [ ] Input the transport demands manually for a specific route & timeslot for the following
+            - [x] Mobile number with OTP verification
+        - [x] Update Bus inventory with the following information **[Mandatory feature | 5 points]**
+            - [x] License number
+            - [ x Codename (ie: to uniquely identify)
+            - [x] Capacity
+            - [x] Driver info.
+                - [x] Full Name
+                - [x] Contact Number
+            - [ x Is Active (ie: a bus could be in maintenance)
+        - [x] Create/Update routes with the following information **[Mandatory | 5 points]**
+            - [x] Route number
+            - [x] Start location
+                - [x] Label
+                - [x] Latitude & Longitude
+            - [x] Start time
+        - [x] Create/Update stoppages with the following information **[Nice to have | 2 points]**
+            - [x] Route number
+            - [x] Label
+            - [x] Latitude & Longitude
+        - [x] Input the transport demands manually for a specific route & timeslot for the following
             - [ ] groups **[Mandatory feature | 6 points]**
             - [ ] Students
             - [ ] Teachers
             - [ ] Staff or officials
             - [ ] Others (ie: in case of any events)
-        - [ ] Automated transport demand calculation **[Nice to have | 10 points]**
-            - [ ] Upload and store schedules (ie: class routine, exam routine)
+        - [x] Automated transport demand calculation **[Nice to have | 10 points]**
+            - [x] Upload and store schedules (ie: class routine, exam routine)
             - [x] [A sample routine can be downloaded from this link]
-                - [ ] [Class Routine](https://docs.google.com/spreadsheets/d/1kGY1XLjjdDOeFdTLzxgmQYZtLyKaBOshsJ_6pq0TrwU/edit#gid=712672084)
+                - [x] [Class Routine](https://docs.google.com/spreadsheets/d/1kGY1XLjjdDOeFdTLzxgmQYZtLyKaBOshsJ_6pq0TrwU/edit#gid=712672084)
                 - [ ] [Exam Routine](https://docs.google.com/spreadsheets/d/1_E9bvZpGL41k3m40PBvWd9l3NCgR0RQn/edit#gid=329530890)
-            - [ ] Calculate the demand in a specific route & timeslot based on the schedules
-        - [ ] Get an optimal suggestion of the following **[Mandatory feature | 20 points]**
-            - [ ] Estimated number of passengers (ie: students, teachers, staff) in a specific route & timeslot
-            - [ ] Which buses to allocated in a specific route & timeslot
-            - [ ] How many extra buses are required (If applicable)
+            - [x] Calculate the demand in a specific route & timeslot based on the schedules
+        - [x] Get an optimal suggestion of the following **[Mandatory feature | 20 points]**
+            - [x] Estimated number of passengers (ie: students, teachers, staff) in a specific route & timeslot
+            - [x] Which buses to allocated in a specific route & timeslot
+            - [x] How many extra buses are required (If applicable)
 
 2. **As a Consumer (ie: student, teacher, staff) ability to -**
-    - [ ] Open an account with the following information **[Mandatory feature | 5 points]**
-        - [ ] Full name
-        - [ ] ID number
-        - [ ] Contact number
-        - [ ] Select option for role
-            - [ ] Student
-            - [ ] Teacher
-            - [ ] Staff
+    - [x] Open an account with the following information **[Mandatory feature | 5 points]**
+        - [x] Full name
+        - [x] ID number
+        - [x] Contact number
+        - [x] Select option for role
+            - [x] Student
+            - [x] Teacher
+            - [x] Staff
         - [ ] Select option for pickup stoppage
         - [ ] ~~Account must be confirmed by the Higher Official or Support Team to access the portal~~
-        - [ ] A consumer can log in to their portal by **any** of the following:
+        - [x] A consumer can log in to their portal by **any** of the following:
             - [ ] Combination of username & password
-            - [ ] Mobile number with OTP verification
-    - [ ] Update profile information (for students) **[Mandatory feature | 2.5 points]**
-        - [ ] Full name
-        - [ ] Batch number
-        - [ ] Section
-    - [ ] Update profile information (for teachers) **[Mandatory feature | 2.5 points]**
-        - [ ] Department
-        - [ ] Code name (ie: XYZ) [It is used in the routine]
-        - [ ] Designation
-    - [ ] Request seat in a specific route and timeslot **[Mandatory feature | 5 points]**
-        - [ ] A consumer can manually request a seat
-        - [ ] If the requested time is out of schedule, a mandatory Note to mention the reason must be provided
+            - [x] Mobile number with OTP verification
+    - [x] Update profile information (for students) **[Mandatory feature | 2.5 points]**
+        - [x] Full name
+        - [x] Batch number
+        - [x] Section
+    - [x] Update profile information (for teachers) **[Mandatory feature | 2.5 points]**
+        - [x] Department
+        - [x] Code name (ie: XYZ) [It is used in the routine]
+        - [x] Designation
+    - [x] Request seat in a specific route and timeslot **[Mandatory feature | 5 points]**
+        - [x] A consumer can manually request a seat
+        - [x] If the requested time is out of schedule, a mandatory Note to mention the reason must be provided
     - [ ] Automated seat allocation **[Nice to have | 5 points]**
         - [ ] For students, teachers, and staff a request will be applied automatically according to their
           routine/schedule
-        - [x] [A sample routine can be downloaded from this link]
+        - [] [A sample routine can be downloaded from this link]
             - [ ] [Class Routine](https://docs.google.com/spreadsheets/d/1kGY1XLjjdDOeFdTLzxgmQYZtLyKaBOshsJ_6pq0TrwU/edit#gid=712672084)
             - [ ] [Exam Routine](https://docs.google.com/spreadsheets/d/1_E9bvZpGL41k3m40PBvWd9l3NCgR0RQn/edit#gid=329530890)
-    - [ ] Ability to view the location of a bus with estimated arrival time **[Nice to have | 15 points]**
-    - [ ] View information about the transport **[Mandatory feature | 5 points]**
-        - [ ] Which buses are allocated in a specific route & timeslot
-        - [ ] Codename or sequence of the buses
+    - [x] Ability to view the location of a bus with estimated arrival time **[Nice to have | 15 points]**
+    - [x] View information about the transport **[Mandatory feature | 5 points]**
+        - [x] Which buses are allocated in a specific route & timeslot
+        - [x] Codename or sequence of the buses
 
 3. Prepare a dummy dataset with the following requirements **[Mandatory feature | 7 points]**
-    - [ ] 4 transport routes
-    - [ ] 10 buses
-        - [ ] Capacity: 50; Quantity: 5
-        - [ ] Capacity: 35; Quantity: 10
-    - [ ] 10K students distributed into
-        - [ ] 7 departments
-            - [ ] CSE
+    - [x] 4 transport routes
+    - [x] 10 buses
+        - [x] Capacity: 50; Quantity: 5
+        - [x] Capacity: 35; Quantity: 10
+    - [x] 10K students distributed into
+        - [x] 7 departments
+            - [x] CSE
             - [ ] EEE
             - [ ] Civil
             - [ ] Architecture
